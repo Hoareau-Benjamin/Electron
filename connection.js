@@ -7,3 +7,4 @@ var connection = mysql.createConnection({
     password : 'pwnazza', 
     database : 'nazza'
 });
+

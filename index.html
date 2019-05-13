@@ -2,33 +2,107 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Application Bureau Covoiturage</title>
   </head>
   <body>
-    <h1>SQL</h1>
-    <script src="connection.js"></script>
-    <script>
-      connection.connect(function(err) {
-        if(err){
-          console.log(err.code);
-          console.log(err.fatal);
-        }
-      });
-
-      $query = 'SELECT * FROM adherant WHERE id_adh = 7';
-      connection.query($query, function(err, rows, fields){
-        if(err){
-          console.log("erreur il y a");
-          console.log(err);
-          return;
-        } 
-        console.log("it works", rows);
-      });
-
-      connection.end(function(){
-
-      });
+    <h1>Membres du site</h1>
+    <input type="button" id="action-btn" value="Refresh" />
+    <br><br>
+        <table id="table" border="1">
+            <tbody>
+                
+            </tbody>
+        </table>
     
+    <!-- <script src="connection.js"></script> -->
+    <script>
+      var mysql = require('mysql');
+
+
+    
+    getAdherant(function(rows){
+        var html = '';
+
+        rows.forEach(function(row){
+            html += '<tr>';
+            html += '<td>';
+            html += row.id_adh;
+            html += '</td>';
+            html += '<td>';
+            html += row.nom;
+            html += '</td>';
+            html += '<td>';
+            html += row.prenom;
+            html += '</td>';
+            html += '<td>';
+            html += row.pseudo;
+            html += '</td>';
+            html += '<td>';
+            html += row.mdp;
+            html += '</td>';
+            html += '<td>';
+            html += row.status;
+            html += '</td>';
+            html += '<td>';
+            html += row.email;
+            html += '</td>';
+            html += '<td>';
+            html += row.verif;
+            html += '</td>';
+            html += '<td>';
+            html += row.tel;
+            html += '</td>';
+            html += '<td>';
+            html += '<button type="button">Modifier</button> ';
+            html += '</td>';
+            html += '</tr>';
+            console.log(row);
+        });
+
+        document.querySelector('#table > tbody').innerHTML = html;
+    });
+
+
+function getAdherant(callback){
+            var mysql = require('mysql');
+
+            // Add the credentials to access your database
+            var connection = mysql.createConnection({
+                host     : 'localhost',
+                user     : 'ad_nazza',
+                password : 'pwnazza',
+                database : 'nazza'
+            });
+
+            // connect to mysql
+            connection.connect(function(err) {
+                // in case of error
+                if(err){
+                    console.log(err.code);
+                    console.log(err.fatal);
+                }
+            });
+
+            // Perform a query
+            $query = 'SELECT * FROM adherant';
+
+            connection.query($query, function(err, rows, fields) {
+                if(err){
+                    console.log("An error ocurred performing the query.");
+                    console.log(err);
+                    return;
+                }
+
+                callback(rows);
+
+                console.log("Query succesfully executed");
+            });
+
+            // Close the connection
+            connection.end(function(){
+                // The connection has been closed
+            });
+        }
     </script>
     
     <script>
