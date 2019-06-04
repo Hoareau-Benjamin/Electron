@@ -2,9 +2,9 @@
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'ad_nazza',
+    host     : 'mysql-benjamin-hoareau.alwaysdata.net',
+    user     : '183533',
     password : 'pwnazza', 
-    database : 'nazza'
+    database : 'benjamin-hoareau_nazza'
 });
 
